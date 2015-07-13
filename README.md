@@ -1,2 +1,2 @@
 # hello-world
-Learning
+the first project I've made.
