@@ -14,7 +14,6 @@ public class IP
         {
             properties[i].SetValue(this, user[i]);
         }
-        timeAccessed = DateTime.Today;
     }
     public string country { get; set; }
     public string countryCode { get; set; }
@@ -29,7 +28,6 @@ public class IP
     public string org { get; set; }
     public string num { get; set; }
     public string address { get; set; }
-    public DateTime timeAccessed;
 
     public override string ToString()
     {
