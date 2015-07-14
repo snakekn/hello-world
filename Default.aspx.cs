@@ -29,7 +29,6 @@ public partial class _Default : System.Web.UI.Page
     public void datalistHandler(Object sender, EventArgs e)
     {
         commandName = "SELECT * FROM CLIENTBASE, ORDERS;";
-        string[] suggestions = convertDatatableToStringArray(GetData()); // provides info from last row
         string[] suggestions = convertDatatableToStringArray(GetData());
         for(int i=0;i<suggestions.Length;i++)
         {
