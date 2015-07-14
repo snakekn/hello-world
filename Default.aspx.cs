@@ -91,12 +91,17 @@ public partial class _Default : System.Web.UI.Page
     // First - Nadav, Last - Kempinski, Phone - 8588827116
     public string[] returnSplitSections(string searchText){ // splits the string into sections that we can use
         string[] parts = searchText.Split('#'); // (First - Nadav), (Last - Kempinski), (Phone - 8588827116)
-        string[] sections = null; // needs to be something amirite
+        string[] sections = new string[parts.Length*2]; // size of the parts given x 2 (each part has two sides)
+        int a = 0;
         foreach (string part in parts)
         {
-            if (part.IndexOf('-') != -1) // Checks for the diving -
+            if (part.IndexOf('-') != -1) // Checks for the dividing -
             {
-                sections = part.Split('-'); // ((First), (Nadav)), ((Last), (Kempinski)), ((Phone), (8588827116))
+                string[] pieces = part.Split('-'); // ((First), (Nadav)), ((Last), (Kempinski)), ((Phone), (8588827116))
+                foreach (string p in pieces) 
+                {
+                    sections[a++] = p;
+                }
             }
         }
         return stripSpaces(sections); // returns the array that is stripped of spaces
@@ -106,34 +111,49 @@ public partial class _Default : System.Web.UI.Page
     {
         string searchText = search.Value;
         
-        if (searchText.IndexOf('#') != -1) // Split based on evil pounds!
+        if (searchText.IndexOf('#') != -1 || searchText.IndexOf('-') != -1) // Split based on pounds!
         {
-            string[] sections = returnSplitSections(searchText); 
-            switch (sections.Length)
+            string[] sections = returnSplitSections(searchText);
+
+            if (searchText.IndexOf('#') != -1)
             {
-                case 2: // columnName, value
-                    commandName = String.Format("SELECT * FROM ClientBase, Orders WHERE {0} LIKE '%{1}%';", sections[0], sections[1]);
-                    break;
-                case 3: // table, columnName, value
-                    commandName = String.Format("SELECT * FROM {0} WHERE {1} LIKE '%{2}%';", sections[0], sections[1], sections[2]);
-                    break;
-                case 4:  
-                    int s;
-                    if (int.TryParse(sections[3], out s)) // table, columnName, operator, int value
-                    {
-                        commandName = String.Format("SELECT * FROM {0} WHERE {1} {2} {3};", sections[0], sections[1], sections[2], s);
-                    }
-                    else // getColumns, table, columnName, value
-                    {
-                        commandName = String.Format("SELECT {0] FROM {1} WHERE {2} LIKE '%{3}%';", sections[0], sections[1], sections[2], sections[3]);
-                    }
-                    break;
-                case 5: // getColumns, table, columnName, operator, value
-                    commandName = String.Format("SELECT {0} FROM {1} WHERE {2} {3} {4}", sections[0], sections[1], sections[2], sections[3], sections[4]);
-                    break;
+                int n = sections.Length;
+                int i = 0;
+                commandName = String.Format("SELECT * FROM ClientBase WHERE ({0} LIKE '%{1}%')", sections[i++], sections[i++]);
+                while(i < n)
+                {
+                    commandName += String.Format("AND ({0} LIKE '%{1}%')", sections[i++], sections[i++]);
+                }
+                commandName += ";";
             }
+            else
+            {
+                switch (sections.Length)
+                {
+                    case 2: // columnName, value
+                        commandName = String.Format("SELECT * FROM ClientBase WHERE {0} LIKE '%{1}%';", sections[0], sections[1]);
+                        break;
+                    case 3: // table, columnName, value
+                        commandName = String.Format("SELECT * FROM {0} WHERE {1} LIKE '%{2}%';", sections[0], sections[1], sections[2]);
+                        break;
+                    case 4:
+                        int s;
+                        if (int.TryParse(sections[3], out s)) // table, columnName, operator, int value
+                        {
+                            commandName = String.Format("SELECT * FROM {0} WHERE {1} {2} {3};", sections[0], sections[1], sections[2], s);
+                        }
+                        else // getColumns, table, columnName, value
+                        {
+                            commandName = String.Format("SELECT {0] FROM {1} WHERE {2} LIKE '%{3}%';", sections[0], sections[1], sections[2], sections[3]);
+                        }
+                        break;
+                    case 5: // getColumns, table, columnName, operator, value
+                        commandName = String.Format("SELECT {0} FROM {1} WHERE {2} {3} {4}", sections[0], sections[1], sections[2], sections[3], sections[4]);
+                        break;
+                }
+            }   
         } else { // value
-            commandName = String.Format("SELECT * FROM ClientBase, Orders WHERE First LIKE '%{0}%';", searchText);
+            commandName = String.Format("SELECT * FROM ClientBase WHERE First LIKE '%{0}%';", searchText);
         }
         commandNameDiv.InnerText = "Command Being Sent: " + commandName; // prints command to commandNameDiv
         getTable();
