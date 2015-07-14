@@ -71,27 +71,31 @@ public partial class _Default : System.Web.UI.Page
             }
         }
         return true;
-            
+    }
+
+    public string[] returnSplitSections(string searchText)
+    {
+        string[] sections = searchText.Split('-');
+        for (int i = 0; i < sections.Length; i++)
+        {
+            if (sections[i].Substring(0, 1).Equals(" "))
+            {
+                sections[i] = sections[i].Substring(1);
+            }
+            if (sections[i].Substring(sections[i].Length - 1).Equals(" "))
+            {
+                sections[i] = sections[i].Substring(0, sections[i].Length - 1);
+            }
+        }
+        return sections;
     }
 
     public void searchFunction(Object sender, EventArgs e)
     {
         string searchText = search.Value;
-
         if (searchText.IndexOf('-') != -1)
         {
-            string[] sections = searchText.Split('-');
-            for (int i = 0; i < sections.Length; i++)
-            {
-                if (sections[i].Substring(0, 1).Equals(" "))
-                {
-                    sections[i] = sections[i].Substring(1);
-                }
-                else if (sections[i].Substring(sections[i].Length - 1).Equals(" "))
-                {
-                    sections[i] = sections[i].Substring(0, sections[i].Length - 1);
-                }
-            }
+            string[] sections = returnSplitSections(searchText);
             switch (sections.Length)
             {
                 case 2:
