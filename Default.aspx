@@ -4,15 +4,15 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>C# SQL</title>
-<link rel="stylesheet" href="StyleSheet.css" />
+    <title>C# SQL</title> <!-- What a great name-->
+<link rel="stylesheet" href="StyleSheet.css" /> <!-- doesn't do a thing -->
 </head>
 <body>
     
     <!-- You can use C# here -->
     <form id="form1" runat="server"> 
         <!-- kind of script -->
-        <input runat="server" id="search" list="searchList" />
+        <input runat="server" id="search" list="searchList" autocomplete="off"/> <!-- using the searchFunction -->
         <datalist id="searchList" runat="server" onload="datalistHandler"></datalist>
         <asp:Button runat="server" id="searchListButton" text="ListButton" OnClick="searchFunction"></asp:Button>
         <br />

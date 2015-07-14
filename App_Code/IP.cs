@@ -5,14 +5,14 @@ using System.Web;
 using System.Reflection;
 
 
-public class IP
+public class IP // class for our IP needs
 {
-    public IP(string[] user)
+    public IP(string[] user) // constructor
     {
-        PropertyInfo[] properties = this.GetType().GetProperties();
+        PropertyInfo[] properties = this.GetType().GetProperties(); // sets the properties without having to list them
         for (int i = 0; i < properties.Length; i++)
         {
-            properties[i].SetValue(this, user[i]);
+            properties[i].SetValue(this, user[i]); // sets the value based on how far we are and what we got
         }
     }
     public string country { get; set; }
@@ -29,7 +29,7 @@ public class IP
     public string num { get; set; }
     public string address { get; set; }
 
-    public override string ToString()
+    public override string ToString() // for the html code
     {
         string s = "";
         s += String.Format("<p>Country Code: {0}</p>", countryCode);
