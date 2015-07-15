@@ -27,7 +27,6 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
-<<<<<<< HEAD
     public void checkForPound(Object sender, EventArgs e)
     {
         test.InnerText = "Method called!"; // TEST HERE
@@ -38,10 +37,7 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
-    public void datalistHandler(Object sender, EventArgs e) // populates the datalist html 
-=======
     protected void datalistHandler(Object sender, EventArgs e) // populates the datalist html 
->>>>>>> master
     {
         commandName = "SELECT * FROM CLIENTBASE, ORDERS;";
         string[] suggestions = convertDatatableToStringArray(GetData()); // gets datatable based on what's already written
