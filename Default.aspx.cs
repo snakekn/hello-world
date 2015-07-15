@@ -27,6 +27,7 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
+<<<<<<< HEAD
     public void checkForPound(Object sender, EventArgs e)
     {
         test.InnerText = "Method called!"; // TEST HERE
@@ -38,6 +39,9 @@ public partial class _Default : System.Web.UI.Page
     }
 
     public void datalistHandler(Object sender, EventArgs e) // populates the datalist html 
+=======
+    protected void datalistHandler(Object sender, EventArgs e) // populates the datalist html 
+>>>>>>> master
     {
         commandName = "SELECT * FROM CLIENTBASE, ORDERS;";
         string[] suggestions = convertDatatableToStringArray(GetData()); // gets datatable based on what's already written
@@ -118,7 +122,7 @@ public partial class _Default : System.Web.UI.Page
         return stripSpaces(sections); // returns the array that is stripped of spaces
     }
 
-    public void searchFunction(Object sender, EventArgs e) // gets the input and creates a command based of the # of elements
+    protected void searchFunction(Object sender, EventArgs e) // gets the input and creates a command based of the # of elements
     {
         string searchText = searchInput + search.Value;
         
@@ -171,12 +175,12 @@ public partial class _Default : System.Web.UI.Page
         getTable();
     }
     
-    public void d0Handler(Object sender, EventArgs e) // whenever we change types of queries
+    protected void d0Handler(Object sender, EventArgs e) // whenever we change types of queries
     {
         changeVisibility(scriptType.Text);
     }
 
-    public void setCommandHandler(Object sender, EventArgs e) // sets the command based on our big system of inputs which is my kind of sanitary
+    protected void setCommandHandler(Object sender, EventArgs e) // sets the command based on our big system of inputs which is my kind of sanitary
     {
         switch (scriptType.Text) // what does kind of script are we talkin' bout here?
         {
@@ -195,7 +199,7 @@ public partial class _Default : System.Web.UI.Page
         }
         checkInputsAndGo(); // Make sure inputs don't have any rampaging illnesses
     }
-    public void queryCode(Object sender, EventArgs e) // send the command to table-press
+    protected void queryCode(Object sender, EventArgs e) // send the command to table-press
     {
         commandName = query.Value;
         getTable();
@@ -280,7 +284,7 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
-    public void getColumnsHandler(Object sender, EventArgs e) // populate our columns instead of typing them 100x!
+    protected  void getColumnsHandler(Object sender, EventArgs e) // populate our columns instead of typing them 100x!
     {
         DropDownList d = (DropDownList)sender; // beautiful use of the sender property
         d.Controls.Clear(); // get rid of it
