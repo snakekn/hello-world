@@ -10,15 +10,16 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Linq;
+using System.Web.UI.HtmlControls;
 
 public partial class _Default : System.Web.UI.Page
 {
     static string commandName = "select * from Orders;"; // the command that is sent to the SQL server
     static string connectionString = "Trusted_Connection=yes;server=NADAV-KEMPINSKI\\SQLEXPRESS;database=Computer;";
-
+    static string searchInput = "";
     protected void Page_Load(object sender, EventArgs e)
     {
-        if(!IsPostBack) // Only on the first load of the page
+        if (!IsPostBack) // Only on the first load of the page
         {
             query.Value = "select * from Orders;"; // necessary to stop loop
             changeVisibility(scriptType.Text); // changes the html tags to be shown at the appropriate times
@@ -26,7 +27,21 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
+<<<<<<< HEAD
+    public void checkForPound(Object sender, EventArgs e)
+    {
+        test.InnerText = "Method called!"; // TEST HERE
+        if (search.Value.Substring(search.Value.Length - 1).Equals("#"))
+        {
+            searchInput += search.Value;
+            search.Value = "";
+        }
+    }
+
+    public void datalistHandler(Object sender, EventArgs e) // populates the datalist html 
+=======
     protected void datalistHandler(Object sender, EventArgs e) // populates the datalist html 
+>>>>>>> master
     {
         commandName = "SELECT * FROM CLIENTBASE, ORDERS;";
         string[] suggestions = convertDatatableToStringArray(GetData()); // gets datatable based on what's already written
@@ -109,7 +124,7 @@ public partial class _Default : System.Web.UI.Page
 
     protected void searchFunction(Object sender, EventArgs e) // gets the input and creates a command based of the # of elements
     {
-        string searchText = search.Value;
+        string searchText = searchInput + search.Value;
         
         if (searchText.IndexOf('#') != -1 || searchText.IndexOf('-') != -1) // Split based on pounds!
         {
@@ -124,7 +139,7 @@ public partial class _Default : System.Web.UI.Page
                 {
                     commandName += String.Format("AND ({0} LIKE '%{1}%')", sections[i++], sections[i++]);
                 }
-                commandName += ";";
+                commandName += ";"; 
             }
             else
             {

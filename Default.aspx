@@ -12,7 +12,7 @@
     <!-- You can use C# here -->
     <form id="form1" runat="server"> 
         <!-- kind of script -->
-        <input runat="server" id="search" list="searchList" autocomplete="off"/> <!-- using the searchFunction -->
+        <input runat="server" id="search" list="searchList" autocomplete="off" onchange="checkForPound"/> <!-- using the searchFunction -->
         <datalist id="searchList" runat="server" onload="datalistHandler"></datalist>
         <asp:Button runat="server" id="searchListButton" text="ListButton" OnClick="searchFunction"></asp:Button>
         <br />
