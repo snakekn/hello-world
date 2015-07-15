@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Linq;
 using System.Web.UI.HtmlControls;
+using System.Web.Services;
 
 public partial class _Default : System.Web.UI.Page
 {
@@ -29,7 +30,7 @@ public partial class _Default : System.Web.UI.Page
 
     public void checkForPound(Object sender, EventArgs e)
     {
-        test.InnerText = "Method called!"; // TEST HERE
+        test.InnerText = "HI!!!"; // TEST HERE
         if (search.Value.Substring(search.Value.Length - 1).Equals("#"))
         {
             searchInput += search.Value;
@@ -86,19 +87,29 @@ public partial class _Default : System.Web.UI.Page
 
     public string[] stripSpaces(string[] parts) // gets rid of the spaces around the special characters for the SQL command
     {
-        for (int i = 0; i < parts.Length; i++)
+        try
         {
-            if (parts[i].Substring(0, 1).Equals(" ")) // spaces in front?
+            for (int i = 0; i < parts.Length; i++)
             {
-                parts[i] = parts[i].Substring(1); // not anymore
+                if (parts[i].Substring(0, 1).Equals(" ")) // spaces in front?
+                {
+                    parts[i] = parts[i].Substring(1); // not anymore
+                }
+                if (parts[i].Substring(parts[i].Length - 1).Equals(" ")) // spaces in back?
+                {
+                    parts[i] = parts[i].Substring(0, parts[i].Length - 1); // partaayyy
+                }
             }
-            if (parts[i].Substring(parts[i].Length - 1).Equals(" ")) // spaces in back?
-            {
-                parts[i] = parts[i].Substring(0, parts[i].Length - 1); // partaayyy
-            }
+            return parts;
         }
-        return parts;
+        catch (ArgumentOutOfRangeException e)
+        {
+            output.InnerText = "The statement is formatted incorrectly. Please revisit the statement and fix it.";
+            output.InnerText += e.ToString(); // won't show up because of GetData()'s overwrite
+            return parts;
+        }
     }
+    
     // First - Nadav, Last - Kempinski, Phone - 8588827116
     public string[] returnSplitSections(string searchText){ // splits the string into sections that we can use
         string[] parts = searchText.Split('#'); // (First - Nadav), (Last - Kempinski), (Phone - 8588827116)
@@ -195,6 +206,7 @@ public partial class _Default : System.Web.UI.Page
         }
         checkInputsAndGo(); // Make sure inputs don't have any rampaging illnesses
     }
+    
     protected void queryCode(Object sender, EventArgs e) // send the command to table-press
     {
         commandName = query.Value;

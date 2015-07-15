@@ -12,7 +12,7 @@
     <!-- You can use C# here -->
     <form id="form1" runat="server"> 
         <!-- kind of script -->
-        <input runat="server" id="search" list="searchList" autocomplete="off" onchange="checkForPound"/> <!-- using the searchFunction -->
+        <input id="search" runat="server" list="searchList" autocomplete="off" onserverchange="checkForPound" /> <!-- using the searchFunction -->
         <datalist id="searchList" runat="server" onload="datalistHandler"></datalist>
         <asp:Button runat="server" id="searchListButton" text="ListButton" OnClick="searchFunction"></asp:Button>
         <br />
@@ -85,6 +85,19 @@
         <script type="text/javascript">
             function collapseToggle() {
                 document.getElementById("ip").hidden = !document.getElementById("ip").hidden;
+            }
+            function cfp() {
+                $.ajax({
+                    type:"POST",
+                    url:'<%= ResolveUrl("~/Default.aspx.cs/checkForPound") %>',
+                    data:JSON.stringify({"input": <%= search %>}),
+                    contentType:"application/json; charset=utf-8",
+                    dataType:"json",
+                    Success: function () {
+                        <% search.Value = ""; %>
+                    }
+                });
+                document.getElementById("test").innerText = "Got this far!" // TEST HERE
             }
         </script>
     </div>
