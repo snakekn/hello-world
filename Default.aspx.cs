@@ -128,6 +128,7 @@ public partial class _Default : System.Web.UI.Page
             }
             else
             {
+                // commandName = String.Format("SELECT * FROM ClientBase WHERE {0} LIKE '%{1}%';", sections[0], sections[1]);
                 switch (sections.Length)
                 {
                     case 2: // columnName, value
@@ -148,7 +149,7 @@ public partial class _Default : System.Web.UI.Page
                         }
                         break;
                     case 5: // getColumns, table, columnName, operator, value
-                        commandName = String.Format("SELECT {0} FROM {1} WHERE {2} {3} {4}", sections[0], sections[1], sections[2], sections[3], sections[4]);
+                        commandName = String.Format("SELECT {0} FROM {1} WHERE {2} {3} {4};", sections[0], sections[1], sections[2], sections[3], sections[4]);
                         break;
                 }
             }   
